@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sip N Crunch - Edible Coffee Cups{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-[#FDFBF7] text-amber-950 font-sans flex flex-col min-h-screen" x-data="{ cartOpen: false, cart: [] }">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-emerald-900 text-emerald-100 text-xs py-2 px-4 text-center font-medium flex justify-between items-center">
+        <div class="mx-auto">
+            <span>🌱 JOIN THE REVOLUTION: Switch to Edible Coffee Cups!</span>
+        </div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-amber-100">
+        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+            <a href="{% url 'home' %}" class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-emerald-800 rounded-xl flex items-center justify-center text-white text-xl">☕</div>
+                <div>
+                    <span class="text-xl font-black text-amber-950">SIP N <span class="text-emerald-700">CRUNCH</span></span>
+                    <span class="block text-[9px] font-bold text-amber-600 -mt-1 uppercase">Drink It. Eat It. Zero Waste.</span>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex gap-6 text-xs font-bold">
+                <a href="{% url 'home' %}" class="hover:text-emerald-700">Home</a>
+                <a href="{% url 'b2b_hub' %}" class="hover:text-emerald-700">B2B Cafe Hub</a>
+                <a href="{% url 'track_order' %}" class="hover:text-emerald-700">Track Order</a>
+            </nav>
+
+            <button @click="cartOpen = true" class="bg-emerald-900 text-white px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2">
+                <span>🛒 Cart</span>
+                <span class="bg-amber-400 text-amber-950 rounded-full px-2 py-0.5 text-[10px]" x-text="cart.length">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-amber-950 text-amber-200 py-8 px-4 text-xs mt-12">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="font-bold text-white mb-2">SIP N CRUNCH ECO TECHNOLOGIES</p>
+            <p>Direct Wholesale Contact: +92 316 4552988 | sales@sipncrunch.pk</p>
+        </div>
+    </footer>
+
+    <!-- Cart Slide-over Drawer -->
+    <div x-show="cartOpen" class="fixed inset-0 z-50 overflow-hidden" style="display: none;">
+        <!-- Backdrop -->
+        <div @click="cartOpen = false" class="absolute inset-0 bg-black/50 transition-opacity"></div>
+
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                <!-- Header -->
+                <div class="p-6 bg-amber-950 text-white flex items-center justify-between">
+                    <h2 class="text-base font-black">🛒 Your Shopping Cart</h2>
+                    <button @click="cartOpen = false" class="text-amber-200 hover:text-white font-bold text-lg">&times;</button>
+                </div>
+
+                <!-- Cart Items List -->
+                <div class="flex-1 overflow-y-auto p-6 space-y-4">
+                    <template x-if="cart.length === 0">
+                        <div class="text-center py-12 text-gray-500 text-xs font-bold">
+                            Your cart is empty. Add some delicious cups!
+                        </div>
+                    </template>
+
+                    <template x-for="(item, index) in cart" :key="index">
+                        <div class="flex justify-between items-center bg-amber-50/50 p-4 rounded-xl border border-amber-100">
+                            <div>
+                                <h4 class="text-xs font-black text-amber-950" x-text="item.name"></h4>
+                                <p class="text-[10px] text-amber-700">Qty: <span x-text="item.quantity"></span> x PKR <span x-text="item.price"></span></p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs font-black text-emerald-800">PKR <span x-text="item.quantity * item.price"></span></span>
+                                <button @click="cart.splice(index, 1)" class="block text-[10px] text-red-600 hover:underline mt-1">Remove</button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+               <!-- Footer / Checkout Form inside Cart Drawer -->
+<!-- Footer / Checkout Form inside Cart Drawer -->
+<div class="p-6 bg-amber-50 border-t border-amber-100 space-y-3" x-data="{ fullName: '', phone: '', city: '', address: '' }">
+    <div class="flex justify-between text-xs font-black text-amber-950">
+        <span>Total Amount:</span>
+        <span>PKR <span x-text="cart.reduce((total, item) => total + (item.quantity * item.price), 0)"></span></span>
+    </div>
+
+    <!-- Customer Details Form -->
+    <div class="space-y-2 pt-2">
+        <input type="text" x-model="fullName" placeholder="Full Name" class="w-full text-xs p-2 rounded-lg border border-amber-200 focus:outline-none bg-white">
+        <input type="text" x-model="phone" placeholder="Phone Number" class="w-full text-xs p-2 rounded-lg border border-amber-200 focus:outline-none bg-white">
+        <input type="text" x-model="city" placeholder="City" class="w-full text-xs p-2 rounded-lg border border-amber-200 focus:outline-none bg-white">
+        <textarea x-model="address" placeholder="Delivery Address" rows="2" class="w-full text-xs p-2 rounded-lg border border-amber-200 focus:outline-none bg-white"></textarea>
+    </div>
+
+    <!-- Checkout Button with JavaScript Fetch Request -->
+    <button @click="
+        if(!fullName || !phone || !address) { alert('Please fill in all details!'); return; }
+        
+        fetch('/api/checkout/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                full_name: fullName,
+                phone_number: phone,
+                city: city,
+                address: address,
+                items: cart
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                cart = [];
+                cartOpen = false;
+                window.location.href = '/order-success/' + data.tracking_id + '/';
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+    " class="w-full bg-emerald-900 text-white py-3 rounded-xl text-xs font-bold hover:bg-emerald-800 transition shadow-md">
+        Confirm & Place Order
+    </button>
+</div>
