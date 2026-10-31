@@ -1,4 +1,5 @@
 {% extends 'store/base.html' %}
+{% load static %}
 
 {% block content %}
 <section class="py-16 bg-gradient-to-b from-amber-50/50 to-white">
@@ -15,8 +16,8 @@
         </div>
 
         <div class="flex justify-center">
-            <div class="w-72 h-72 bg-gradient-to-tr from-amber-200 to-emerald-200 rounded-3xl flex items-center justify-center text-8xl shadow-xl">
-                ☕🍫
+            <div class="w-72 h-72 bg-gradient-to-tr from-amber-200 to-emerald-200 rounded-3xl flex items-center justify-center overflow-hidden shadow-xl">
+                <img src="{% static 'store/images/cup.png' %}" alt="Sip N Crunch Edible Cup" class="w-full h-full object-cover">
             </div>
         </div>
     </div>
@@ -29,13 +30,9 @@
         {% for product in retail_products %}
         <div class="bg-white p-6 rounded-3xl border border-amber-100 shadow-md flex flex-col justify-between" x-data="{ qty: 1 }">
             <div>
-                <!-- Product Image / Placeholder -->
+                <!-- Product Image (Direct Static Link for Render Reliability) -->
                 <div class="h-44 bg-amber-50 rounded-2xl flex items-center justify-center overflow-hidden mb-4">
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover">
-                    {% else %}
-                        <span class="text-6xl">☕</span>
-                    {% endif %}
+                    <img src="{% static 'store/images/cup.png' %}" alt="{{ product.name }}" class="w-full h-full object-cover">
                 </div>
                 
                 <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded uppercase">Single Cup Sale</span>
