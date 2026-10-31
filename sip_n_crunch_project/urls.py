@@ -8,6 +8,9 @@ urlpatterns = [
     path('', include('store.urls')),
 ]
 
-# Yeh line zaroori hai taake local development mein images show ho sakein
+# Yeh line production aur local dono mein media pictures show karwayegi
 if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    # Render (production) par media files serve karne ke liye
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
