@@ -28,12 +28,11 @@
                     <span class="block text-[9px] font-bold text-amber-600 -mt-1 uppercase">Drink It. Eat It. Zero Waste.</span>
                 </div>
             </a>
-
-            <nav class="hidden md:flex gap-6 text-xs font-bold">
-                <a href="{% url 'home' %}" class="hover:text-emerald-700">Home</a>
-                <a href="{% url 'b2b_hub' %}" class="hover:text-emerald-700">B2B Cafe Hub</a>
-                <a href="{% url 'track_order' %}" class="hover:text-emerald-700">Track Order</a>
-            </nav>
+<nav class="flex flex-wrap gap-4 md:gap-6 text-xs font-bold items-center">
+    <a href="{% url 'home' %}" class="hover:text-emerald-700">Home</a>
+    <a href="{% url 'b2b_hub' %}" class="hover:text-emerald-700">B2B Cafe Hub</a>
+    <a href="{% url 'track_order' %}" class="hover:text-emerald-700">Track Order</a>
+</nav>
 
             <button @click="cartOpen = true" class="bg-emerald-900 text-white px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2">
                 <span>🛒 Cart</span>
