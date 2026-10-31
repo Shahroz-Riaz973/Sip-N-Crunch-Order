@@ -4,8 +4,8 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-sip-n-crunch-production-key-change-in-prod'
-
-DEBUG = False
+import os
+DEBUG = os.environ.get('RENDER', 'False') == 'True' or True  # ya seedha True kar dein kuch der ke liye
 
 ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
 
